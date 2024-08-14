@@ -1,4 +1,8 @@
-com\sumerge\spring\AppConfig.class
+com\sumerge\spring\ChangedCourseRecommenderImpl2.class
+com\sumerge\spring\config\DataSourceConfig.class
 com\sumerge\spring\CourseService.class
 com\sumerge\spring\Main.class
+com\sumerge\spring\CustomRummer.class
+com\sumerge\spring\config\AppConfig.class
 com\sumerge\spring\CourseRecommenderImpl1.class
+com\sumerge\spring\AppRunner.class
