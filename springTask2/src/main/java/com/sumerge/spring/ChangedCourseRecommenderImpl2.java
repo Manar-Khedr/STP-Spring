@@ -13,8 +13,8 @@ public class ChangedCourseRecommenderImpl2 extends CourseRecommenderImpl2 {
     public List<Course> recommendedCourses() {
         // Custom behavior
         List<Course> courseList = new ArrayList<>();
-        courseList.add(new Course("CourseRecommenderImpl2 Overridden to Course 5"));
-        courseList.add(new Course("CourseRecommenderImpl2 Overridden to Course 6"));
+        courseList.add(new Course("CourseRecommenderImpl2 Overridden to Course 5" , 5, "Computer Networks 1", 3));
+        courseList.add(new Course("CourseRecommenderImpl2 Overridden to Course 6", 6, "Advanced Networks", 3));
         return courseList;
     }
 }

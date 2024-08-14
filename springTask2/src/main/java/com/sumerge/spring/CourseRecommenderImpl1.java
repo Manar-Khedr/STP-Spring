@@ -1,6 +1,5 @@
 package com.sumerge.spring;
 
-import org.springframework.stereotype.Component;
 import com.sumerge.spring3.CourseRecommender;
 import com.sumerge.spring3.Course;
 
@@ -12,8 +11,8 @@ public class CourseRecommenderImpl1 implements CourseRecommender{
     @Override
     public List<Course> recommendedCourses() {
         List<Course> courseList = new ArrayList<>();
-        courseList.add(new Course("Course 1"));
-        courseList.add(new Course("Course 2"));
+        courseList.add(new Course("Java Basics", 1, "Introduction to Java", 3));
+        courseList.add(new Course("Database Basics", 2, "Introduction to Database", 3 ));
 
         return courseList;
     }
