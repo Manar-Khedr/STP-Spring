@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.sumerge.spring</groupId>
-  <artifactId>springTask2</artifactId>
+  <groupId>com.sumerge.spring3</groupId>
+  <artifactId>springTask3</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>Archetype - springTask2</name>
+  <name>Archetype - springTask3</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -17,16 +17,6 @@
       <artifactId>spring-beans</artifactId>
       <version>5.3.15</version>
     </dependency>
-
-    <!-- Project 3 Dependencies -->
-
-    <dependency>
-      <groupId>com.sumerge.spring3</groupId>
-      <artifactId>springTask3</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-
-
   </dependencies>
   <build>
     <plugins>
@@ -42,3 +32,4 @@
     </plugins>
   </build>
 </project>
+

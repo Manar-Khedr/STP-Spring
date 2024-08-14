@@ -1,0 +1,4 @@
+com\sumerge\spring\AppConfig.class
+com\sumerge\spring\CourseService.class
+com\sumerge\spring\Main.class
+com\sumerge\spring\CourseRecommenderImpl1.class
