@@ -3,6 +3,8 @@ package com.sumerge.spring.config;
 import com.sumerge.spring.ChangedCourseRecommenderImpl2;
 import com.sumerge.spring.CourseRecommenderImpl1;
 import com.sumerge.spring.CourseService;
+import com.sumerge.spring.CourseRepository;
+import com.sumerge.spring.CourseRepositoryImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,15 +18,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Import(DataSourceConfig.class)
 public class AppConfig {
 
-
     @Bean
     public CourseService courseService(
             @Qualifier("courseRecommenderImpl2") CourseRecommender courseRecommender,
-            JdbcTemplate jdbcTemplate) {
-        return new CourseService(jdbcTemplate,courseRecommender);
+            CourseRepository courseRepository) {
+        return new CourseService(courseRecommender, courseRepository);
     }
-
-    /////////////////
 
     @Bean
     @Qualifier("courseRecommenderImpl1")
@@ -38,4 +37,8 @@ public class AppConfig {
         return new ChangedCourseRecommenderImpl2();
     }
 
+    @Bean
+    public CourseRepository courseRepository(JdbcTemplate jdbcTemplate) {
+        return new CourseRepositoryImpl(jdbcTemplate);
+    }
 }
