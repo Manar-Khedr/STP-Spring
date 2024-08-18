@@ -1,44 +1,45 @@
 package com.sumerge.spring.config;
 
-import com.sumerge.spring.ChangedCourseRecommenderImpl2;
 import com.sumerge.spring.CourseRecommenderImpl1;
-import com.sumerge.spring.CourseService;
-import com.sumerge.spring.CourseRepository;
-import com.sumerge.spring.CourseRepositoryImpl;
+import com.sumerge.spring.mapper.AuthorMapper;
+import com.sumerge.spring.mapper.CourseMapper;
+import com.sumerge.spring.repository.AuthorRepository;
+import com.sumerge.spring.service.AuthorService;
+import com.sumerge.spring.service.CourseService;
+import com.sumerge.spring.repository.CourseRepository;
+import com.sumerge.spring3.CourseRecommender;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import com.sumerge.spring3.CourseRecommender;
-import org.springframework.context.annotation.Import;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @ComponentScan(basePackages = "com.sumerge.spring")
-@Import(DataSourceConfig.class)
+@EnableJpaRepositories(basePackages = "com.sumerge.spring.repository")
+@EntityScan(basePackages = {"com.sumerge.spring3", "com.sumerge.spring.classes"})
 public class AppConfig {
 
+//    @Bean
+//    public CourseService courseService(CourseRepository courseRepository, CourseMapper courseMapper) {
+//        return new CourseService(courseRepository, courseMapper);
+//    }
+//
+//    @Bean
+//    public AuthorService authorService(AuthorRepository authorRepository, AuthorMapper authorMapper) {
+//        return new AuthorService(authorRepository, authorMapper);
+//    }
+
     @Bean
-    public CourseService courseService(
-            @Qualifier("courseRecommenderImpl2") CourseRecommender courseRecommender,
-            CourseRepository courseRepository) {
-        return new CourseService(courseRecommender, courseRepository);
+    public CourseMapper courseMapper() {
+        return Mappers.getMapper(CourseMapper.class);
     }
 
     @Bean
-    @Qualifier("courseRecommenderImpl1")
-    public CourseRecommender courseRecommenderImpl1() {
-        return new CourseRecommenderImpl1();
+    public AuthorMapper authorMapper() {
+        return Mappers.getMapper(AuthorMapper.class);
     }
 
-    @Bean
-    @Qualifier("courseRecommenderImpl2")
-    public CourseRecommender courseRecommenderImpl2() {
-        return new ChangedCourseRecommenderImpl2();
-    }
-
-    @Bean
-    public CourseRepository courseRepository(JdbcTemplate jdbcTemplate) {
-        return new CourseRepositoryImpl(jdbcTemplate);
-    }
 }

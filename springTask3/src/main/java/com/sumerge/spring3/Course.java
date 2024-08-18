@@ -1,20 +1,32 @@
 package com.sumerge.spring3;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+@Entity
+@Table(name = "course")
 public class Course {
 
-    @JsonProperty("name")
-    private String courseName;
-    @JsonProperty("id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int courseId;
-    @JsonProperty("description")
+
+    @Column(name = "name")
+    private String courseName;
+
+    @Column(name = "description")
     private String courseDescription;
-    @JsonProperty("credit")
+
+    @Column(name = "credit")
     private int courseCredit;
 
-   public Course(){
-
-   }
+    // Default constructor
+    public Course() {}
 
     public Course(String courseName, int courseId, String courseDescription, int courseCredit) {
         this.courseName = courseName;
@@ -23,38 +35,36 @@ public class Course {
         this.courseCredit = courseCredit;
     }
 
-    // Getters
-    @JsonProperty("name")
-    public String getName() {
-        return courseName;
-    }
-    @JsonProperty("id")
-    public int getId() {
+    // Getters and setters
+    public int getCourseId() {
         return courseId;
     }
-    @JsonProperty("description")
-    public String getDescription() {
-        return courseDescription;
-    }
-    @JsonProperty("credit")
-    public int getCredit() {
-        return courseCredit;
-    }
 
-    // Setters
-    public void setName(String courseName){
-        this.courseName = courseName;
-    }
-
-    public void setId(int courseId){
+    public void setCourseId(int courseId) {
         this.courseId = courseId;
     }
 
-    public void setDescription(String courseDescription){
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public String getCourseDescription() {
+        return courseDescription;
+    }
+
+    public void setCourseDescription(String courseDescription) {
         this.courseDescription = courseDescription;
     }
 
-    public void setCredit(int courseCredit){
+    public int getCourseCredit() {
+        return courseCredit;
+    }
+
+    public void setCourseCredit(int courseCredit) {
         this.courseCredit = courseCredit;
     }
 }
