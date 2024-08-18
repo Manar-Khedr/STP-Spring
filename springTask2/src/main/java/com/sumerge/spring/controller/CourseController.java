@@ -1,8 +1,10 @@
 package com.sumerge.spring.controller;
 
-import com.sumerge.spring.CourseService;
+import com.sumerge.spring.dto.CourseDTO;
+import com.sumerge.spring.service.CourseService;
 import com.sumerge.spring3.Course;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,54 +22,34 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    // Get mapping --> get course from database
-    @GetMapping("/{courseId}")
-    public ResponseEntity<Course> getCourse(@PathVariable int courseId) {
-        Course course = courseService.viewCourse(courseId);
-        if (course != null) {
-            return ResponseEntity.ok(course);
-        }
-        return ResponseEntity.notFound().build();
-    }
-
-    // 2. Add a course
+    // add course --> post mapping
     @PostMapping
-    public ResponseEntity<Void> addCourse(@RequestBody Course course) {
-        courseService.addCourse(course);
-        return ResponseEntity.ok().build();
+    public CourseDTO addCourse(@RequestBody CourseDTO courseDTO) {
+        return courseService.addCourse(courseDTO);
     }
 
-    // 3. Update a certain course
+    // view course by id --> get mapping
+    @GetMapping("/{courseId}")
+    public CourseDTO viewCourse(@PathVariable int courseId) {
+        return courseService.viewCourse(courseId);
+    }
+
+    // update course --> put mapping
     @PutMapping("/{courseId}")
-    public ResponseEntity<Void> updateCourse(@PathVariable int courseId, @RequestBody Course course) {
-        Course choosenCourse = courseService.viewCourse(courseId);
-        if (choosenCourse != null) {
-            course.setId(courseId);
-            courseService.updateCourse(course);
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.notFound().build();
+    public CourseDTO updateCourse(@PathVariable int courseId, @RequestBody CourseDTO courseDTO) {
+        courseDTO.setCourseId(courseId);
+        return courseService.updateCourse(courseDTO);
     }
 
-    // 4. Delete a certain course
+    // delete course by id --> delete mapping
     @DeleteMapping("/{courseId}")
-    public ResponseEntity<Void> deleteCourse(@PathVariable int courseId) {
-        Course choosenCourse = courseService.viewCourse(courseId);
-        if (choosenCourse != null) {
-            courseService.deleteCourse(choosenCourse);
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.notFound().build();
+    public void deleteCourse(@PathVariable int courseId) {
+        courseService.deleteCourse(courseId);
     }
 
-    // 5. View all courses
+    // view all courses using paging -- > get mapping
     @GetMapping
-    public ResponseEntity<List<Course>> getAllCourses() {
-        List<Course> courses = courseService.viewAllCourses();
-        if (courses != null && !courses.isEmpty()) {
-            return ResponseEntity.ok(courses);
-        }
-        return ResponseEntity.notFound().build();
+    public Page<CourseDTO> viewAllCourses(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return courseService.viewAllCourses(page, size);
     }
-
 }
