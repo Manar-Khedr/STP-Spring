@@ -1,6 +1,6 @@
 package com.sumerge.spring.mapper;
 
-import com.sumerge.spring.classes.Author;
+import com.sumerge.spring3.classes.Author;
 import com.sumerge.spring.dto.AuthorDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
