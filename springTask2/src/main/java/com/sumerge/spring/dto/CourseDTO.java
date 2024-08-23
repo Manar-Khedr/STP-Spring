@@ -9,6 +9,15 @@ public class CourseDTO {
     private String courseDescription;
     private int courseCredit;
 
+    // default constructor
+    public CourseDTO(){}
+
+    public CourseDTO(String courseName, String courseDescription, int courseCredit){
+        this.courseName = courseName;
+        this.courseDescription = courseDescription;
+        this.courseCredit = courseCredit;
+    }
+
     public int getCourseId() {
         return courseId;
     }

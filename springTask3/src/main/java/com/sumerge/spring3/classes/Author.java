@@ -1,24 +1,38 @@
-package com.sumerge.spring.dto;
+package com.sumerge.spring3.classes;
 
-import java.util.*;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.Set;
 
-public class AuthorDTO {
+@Entity
+@Table(name = "Author")
+public class Author {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int authorId;
+
     private String authorName;
     private String authorEmail;
     private Date authorBirthDate;
 
+    @ManyToMany
+    @JoinTable(
+            name = "course_author",
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private Set<Course> courses;
 
-    //Default constructor
-    public AuthorDTO(){
-    }
+    // Default constructor
+    public Author() {}
 
-    public AuthorDTO(String authorEmail, String authorName){
+    public Author(String authorName, String authorEmail){
         this.authorEmail = authorEmail;
         this.authorName = authorName;
     }
 
+    // Getters and setters
     public int getAuthorId() {
         return authorId;
     }
@@ -49,5 +63,13 @@ public class AuthorDTO {
 
     public void setAuthorBirthDate(Date authorBirthDate) {
         this.authorBirthDate = authorBirthDate;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 }
