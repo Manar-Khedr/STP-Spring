@@ -1,28 +1,16 @@
-package com.sumerge.spring3.classes;
+package com.sumerge.spring.dto;
 
-import javax.persistence.*;
+public class RatingDTO {
 
-@Entity
-@Table(name = "rating")
-public class Rating {
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ratingId;
-
     private int number;
 
-    @ManyToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
-
-    public Rating(int ratingId, int number){
+    public RatingDTO(int ratingId, int number){
         this.ratingId = ratingId;
         this.number = number;
     }
 
-    public Rating(){}
+    public RatingDTO(){}
 
     public int getRatingId() {
         return ratingId;
