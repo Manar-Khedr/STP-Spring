@@ -1,28 +1,17 @@
-package com.sumerge.spring3.classes;
+package com.sumerge.spring.dto;
 
-import javax.persistence.*;
+public class AssessmentDTO {
 
-@Entity
-@Table(name = "assessment")
-public class Assessment {
-
-    // variables
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int assessmentId;
-
     private String assessmentContent;
 
-    @OneToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
-
-    public Assessment(int assessmentId, String assessmentContent){
-        this.assessmentId = assessmentId;
+    public AssessmentDTO(int assessmentId, String assessmentContent){
         this.assessmentContent = assessmentContent;
+        this.assessmentId = assessmentId;
     }
 
-    public Assessment(){}
+    public AssessmentDTO(){}
+
 
     public int getAssessmentId() {
         return assessmentId;
@@ -40,4 +29,3 @@ public class Assessment {
         this.assessmentContent = assessmentContent;
     }
 }
-
