@@ -12,7 +12,6 @@ public class AssessmentDTO {
 
     public AssessmentDTO(){}
 
-
     public int getAssessmentId() {
         return assessmentId;
     }

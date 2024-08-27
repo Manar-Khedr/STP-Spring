@@ -4,13 +4,9 @@ import com.sumerge.spring.dto.RatingDTO;
 import com.sumerge.spring.exception.ResourceNotFoundException;
 import com.sumerge.spring.mapper.RatingMapper;
 import com.sumerge.spring.repository.RatingRepository;
-import com.sumerge.spring3.classes.Course;
 import com.sumerge.spring3.classes.Rating;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.sumerge.spring3.*;
 
 import javax.validation.ValidationException;
 
@@ -58,12 +54,10 @@ public class RatingService {
         ratingRepository.deleteById(ratingId);
     }
 
-
     // View rating by ID
     public RatingDTO viewRating(int ratingId) throws ResourceNotFoundException {
         Rating rating = ratingRepository.findById(ratingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Rating not found with ID: " + ratingId));
         return ratingMapper.mapToRatingDTO(rating);
     }
-
 }

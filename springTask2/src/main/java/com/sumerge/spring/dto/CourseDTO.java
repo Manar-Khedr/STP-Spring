@@ -1,18 +1,27 @@
 package com.sumerge.spring.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 
-
+@Schema(description = "Course data transfer object")
 public class CourseDTO {
 
+    @Schema(description = "Unique identifier for the course", example = "1")
     private int courseId;
+
+    @Schema(description = "Name of the course", example = "Introduction to Programming")
     private String courseName;
+
+    @Schema(description = "Description of the course", example = "A beginner's course in programming.")
     private String courseDescription;
+
+    @Schema(description = "Number of credits for the course", example = "3")
     private int courseCredit;
 
-    // default constructor
-    public CourseDTO(){}
+    // Default constructor
+    public CourseDTO() {}
 
-    public CourseDTO(String courseName, String courseDescription, int courseCredit){
+    // Parameterized constructor
+    public CourseDTO(String courseName, String courseDescription, int courseCredit) {
         this.courseName = courseName;
         this.courseDescription = courseDescription;
         this.courseCredit = courseCredit;

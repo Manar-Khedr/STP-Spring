@@ -2,7 +2,6 @@ package com.sumerge.spring.controller;
 
 
 import com.sumerge.spring.exception.ResourceNotFoundException;
-import com.sumerge.spring3.classes.Author;
 import com.sumerge.spring.dto.AuthorDTO;
 import com.sumerge.spring.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,10 +75,4 @@ public class AuthorController {
         Page<AuthorDTO> authors = authorService.viewAllAuthors(page, size);
         return new ResponseEntity<>(authors, HttpStatus.OK);
     }
-
-//    // Filter author by email (GET mapping)
-//    @GetMapping("/search")
-//    public AuthorDTO getAuthorByEmail(@RequestParam String authorEmail) {
-//        return authorService.getAuthorByEmail(authorEmail);
-//    }
 }

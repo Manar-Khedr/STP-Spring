@@ -1,6 +1,5 @@
 package com.sumerge.spring.repository;
 
-
 import com.sumerge.spring3.classes.Author;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
