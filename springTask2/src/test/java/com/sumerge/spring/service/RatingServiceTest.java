@@ -1,27 +1,18 @@
 package com.sumerge.spring.service;
 
-import com.sumerge.spring.dto.AuthorDTO;
 import com.sumerge.spring.dto.RatingDTO;
 import com.sumerge.spring.exception.ResourceNotFoundException;
-import com.sumerge.spring.mapper.AuthorMapper;
 import com.sumerge.spring.mapper.RatingMapper;
-import com.sumerge.spring.repository.AuthorRepository;
 import com.sumerge.spring.repository.RatingRepository;
-import com.sumerge.spring3.classes.Author;
 import com.sumerge.spring3.classes.Rating;
+import com.sumerge.spring.service.RatingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import javax.validation.ValidationException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -12,16 +12,14 @@ public class AuthorMapperTest {
 
     @Test
     public void testMapToAuthorDTO() {
-        // Given
+
         Author author = new Author();
         author.setAuthorId(1);
         author.setAuthorName("Test Author");
         author.setAuthorEmail("test@example.com");
 
-        // When
         AuthorDTO authorDTO = mapper.mapToAuthorDTO(author);
 
-        // Then
         assertEquals(author.getAuthorId(), authorDTO.getAuthorId());
         assertEquals(author.getAuthorName(), authorDTO.getAuthorName());
         assertEquals(author.getAuthorEmail(), authorDTO.getAuthorEmail());
@@ -29,16 +27,14 @@ public class AuthorMapperTest {
 
     @Test
     public void testMapToAuthor() {
-        // Given
+
         AuthorDTO authorDTO = new AuthorDTO();
         authorDTO.setAuthorId(1);
         authorDTO.setAuthorName("Test Author");
         authorDTO.setAuthorEmail("test@example.com");
 
-        // When
         Author author = mapper.mapToAuthor(authorDTO);
 
-        // Then
         assertEquals(authorDTO.getAuthorId(), author.getAuthorId());
         assertEquals(authorDTO.getAuthorName(), author.getAuthorName());
         assertEquals(authorDTO.getAuthorEmail(), author.getAuthorEmail());

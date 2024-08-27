@@ -1,11 +1,14 @@
 package com.sumerge.spring.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sumerge.spring.dto.AuthorDTO;
+import com.sumerge.spring.config.SecurityConfig;
+import com.sumerge.spring.config.TestSecurityConfig;
+import com.sumerge.spring.dto.CourseDTO;
 import com.sumerge.spring.dto.RatingDTO;
 import com.sumerge.spring.exception.ResourceNotFoundException;
-import com.sumerge.spring.service.AuthorService;
 import com.sumerge.spring.service.RatingService;
+import com.sumerge.spring.service.SecurityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,31 +17,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import javax.validation.ValidationException;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
+@Import({SecurityConfig.class, TestSecurityConfig.class})
 @WebMvcTest(controllers = RatingController.class)
 @ContextConfiguration(classes = RatingController.class)
 @ComponentScan(basePackages = "exception")
@@ -49,6 +45,9 @@ public class RatingControllerTest {
 
     @MockBean
     private RatingService ratingService;
+
+    @MockBean
+    private SecurityService securityService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -70,12 +69,11 @@ public class RatingControllerTest {
 
     @Test
     void testAddRating_Success() throws Exception {
-        // initialize
-        RatingDTO createdRating = new RatingDTO(ratingId,ratingNumber);
-        when(ratingService.addRating(any(RatingDTO.class))).thenReturn(createdRating);
 
-        // testing
-        mockMvc.perform(post("/ratings")
+        when(securityService.isAdmin()).thenReturn(true);
+        when(ratingService.addRating(any(RatingDTO.class))).thenReturn(ratingDTO);
+
+        mockMvc.perform(post("/ratings/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(ratingDTO)))
                 .andExpect(status().isOk())
@@ -83,17 +81,34 @@ public class RatingControllerTest {
     }
 
     @Test
-    void testAddRating_ValidationException() throws Exception{
-        // Arrange
-
+    void testAddRating_Authorized_AlreadyExists() throws Exception {
+        // Arrange for ValidationException
         doThrow(new ValidationException("Rating with ID 1 already exists."))
                 .when(ratingService).addRating(any(RatingDTO.class));
+        // Mock security service to allow admin access for this test
+        when(securityService.isAdmin()).thenReturn(true);
 
-        // Act & Assert
-        mockMvc.perform(post("/ratings")
+        // Act & Assert for ValidationException
+        mockMvc.perform(post("/ratings/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(ratingDTO)))
                 .andExpect(status().isConflict());
+
+        System.out.println("ValidationException test passed.");
+    }
+
+    @Test
+    void testAddRating_Unauthorized() throws Exception {
+        // Arrange for Unauthorized Access
+        when(securityService.isAdmin()).thenReturn(false);
+
+        // Act & Assert for Unauthorized Access
+        mockMvc.perform(post("/ratings/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(ratingDTO)))
+                .andExpect(status().isForbidden());
+
+        System.out.println("Unauthorized Access test passed.");
     }
 
     @Test
@@ -108,7 +123,7 @@ public class RatingControllerTest {
     }
 
     @Test
-    void testViewRating_ResourceNotFoundException() throws Exception{
+    void testViewRating_NotFound() throws Exception{
         // Arrange
         int ratingId = 2;
 
@@ -123,11 +138,10 @@ public class RatingControllerTest {
     @Test
     void testUpdateRating_Success() throws Exception{
         // initialize
-        RatingDTO updatedRating = new RatingDTO(ratingId,ratingNumber);
+        when(securityService.isAdmin()).thenReturn(true);
+        when(ratingService.updateRating(any(RatingDTO.class))).thenReturn(ratingDTO);
 
-        when(ratingService.updateRating(any(RatingDTO.class))).thenReturn(updatedRating);
-
-        mockMvc.perform(put("/ratings/{ratingId}",ratingId)
+        mockMvc.perform(put("/ratings/update/{ratingId}",ratingId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(ratingDTO)))
                 .andExpect(status().isOk())
@@ -135,25 +149,36 @@ public class RatingControllerTest {
     }
 
     @Test
-    void testUpdateRating_ResourceNotFoundException() throws Exception{
+    void testUpdateRating_Authorized_NotFound() throws Exception{
 
         ratingDTO.setRatingId(2);
-
+        when(securityService.isAdmin()).thenReturn(true);
         when(ratingService.updateRating(any(RatingDTO.class))).thenThrow(new ResourceNotFoundException("Rating not found with ID: " + "2"));
 
-        mockMvc.perform(put("/ratings/{rating}", 2)
+        mockMvc.perform(put("/ratings/update/{rating}", 2)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(ratingDTO)))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void testDeleteRating_Success() throws Exception{
+    void testUpdateRating_Unauthorized() throws Exception{
+        // Arrange for Unauthorized Access
+        when(securityService.isAdmin()).thenReturn(false);
 
+        mockMvc.perform(put("/ratings/update/{ratingId}", ratingId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(ratingDTO)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void testDeleteRating_Success() throws Exception{
+        when(securityService.isAdmin()).thenReturn(true);
         doNothing().when(ratingService).deleteRating(ratingId);
 
         // Perform the delete request
-        mockMvc.perform(MockMvcRequestBuilders.delete("/ratings/{ratingId}", ratingId))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/ratings/delete/{ratingId}", ratingId))
                 .andExpect(status().isNoContent());
 
         // Verify the service method was called with the correct parameter
@@ -161,17 +186,25 @@ public class RatingControllerTest {
     }
 
     @Test
-    void testDeleteRating_ResourceNotFoundException() throws Exception{
+    void testDeleteRating_Authroized_NotFound() throws Exception{
         // Mock the service to throw ResourceNotFoundException
         doThrow(new ResourceNotFoundException("Rating not found with ID: " + 2))
                 .when(ratingService).deleteRating(2);
-
+        when(securityService.isAdmin()).thenReturn(true);
         // Perform the delete request and expect NOT_FOUND status
-        mockMvc.perform(MockMvcRequestBuilders.delete("/ratings/{ratingId}", 2))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/ratings/delete/{ratingId}", 2))
                 .andExpect(status().isNotFound());
 
         // Verify the service method was called with the correct parameter
         verify(ratingService).deleteRating(2);
+    }
+
+    @Test
+    void testDeleteRating_Unauthorized() throws Exception{
+        when(securityService.isAdmin()).thenReturn(false);
+
+        mockMvc.perform(delete("/ratings/delete/{ratingId}", ratingId))
+                .andExpect(status().isForbidden());
     }
 
 }

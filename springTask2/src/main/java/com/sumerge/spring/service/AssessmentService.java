@@ -5,10 +5,6 @@ import com.sumerge.spring.exception.ResourceNotFoundException;
 import com.sumerge.spring.mapper.AssessmentMapper;
 import com.sumerge.spring.repository.AssessmentRepository;
 import com.sumerge.spring3.classes.Assessment;
-import com.sumerge.spring3.classes.Course;
-import com.sumerge.spring3.classes.Rating;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +12,6 @@ import javax.validation.ValidationException;
 
 @Service
 public class AssessmentService {
-
-    //private static final Logger logger = LoggerFactory.getLogger(AssessmentService.class);
 
     private final AssessmentRepository assessmentRepository;
     private final AssessmentMapper assessmentMapper;
@@ -67,5 +61,4 @@ public class AssessmentService {
         Assessment assessment = assessmentRepository.findById(assessmentId).orElseThrow(() -> new ResourceNotFoundException("Assessment not found with id: "+ assessmentId));
         return assessmentMapper.mapToAssessmentDTO(assessment);
     }
-
 }

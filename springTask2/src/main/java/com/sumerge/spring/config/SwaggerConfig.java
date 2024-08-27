@@ -1,17 +1,27 @@
 package com.sumerge.spring.config;
 
-import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.security.SecurityScheme.In;
+import io.swagger.v3.oas.models.security.SecurityScheme.Type;
 
 @Configuration
 public class SwaggerConfig {
 
     @Bean
-    public GroupedOpenApi publicApi() {
-        return GroupedOpenApi.builder()
-                .group("public-api")
-                .pathsToMatch("/**")
-                .build();
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .info(new Info().title("API Documentation").version("1.0"))
+                .addSecurityItem(new SecurityRequirement().addList("adminTokenAuth"))
+                .components(new io.swagger.v3.oas.models.Components()
+                        .addSecuritySchemes("adminTokenAuth", new SecurityScheme()
+                                .type(Type.APIKEY)  // API key type, not HTTP Bearer
+                                .in(In.HEADER)
+                                .name("Admin-Token")));  // Use Admin-Token as the header
     }
 }
+

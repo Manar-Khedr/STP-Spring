@@ -9,7 +9,6 @@ public class AuthorDTO {
     private String authorEmail;
     private Date authorBirthDate;
 
-
     //Default constructor
     public AuthorDTO(){
     }

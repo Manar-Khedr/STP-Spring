@@ -11,26 +11,22 @@ public class AssessmentMapperTest {
 
     @Test
     public void testMapToAssessmentDTO() {
-        // Given
+
         Assessment assessment = new Assessment(1, "Sample Assessment Content");
 
-        // When
         AssessmentDTO assessmentDTO = assessmentMapper.mapToAssessmentDTO(assessment);
 
-        // Then
         assertEquals(assessment.getAssessmentId(), assessmentDTO.getAssessmentId());
         assertEquals(assessment.getAssessmentContent(), assessmentDTO.getAssessmentContent());
     }
 
     @Test
     public void testMapToAssessment() {
-        // Given
+
         AssessmentDTO assessmentDTO = new AssessmentDTO(1, "Sample Assessment Content");
 
-        // When
         Assessment assessment = assessmentMapper.mapToAssessment(assessmentDTO);
 
-        // Then
         assertEquals(assessmentDTO.getAssessmentId(), assessment.getAssessmentId());
         assertEquals(assessmentDTO.getAssessmentContent(), assessment.getAssessmentContent());
     }

@@ -6,6 +6,7 @@ import com.sumerge.spring.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ValidationException;
@@ -23,7 +24,8 @@ public class RatingController {
     }
 
     // Add rating --> POST mapping
-    @PostMapping
+    @PostMapping("/add")
+    @PreAuthorize("@securityService.isAdmin()")
     public ResponseEntity<RatingDTO> addRating(@RequestBody RatingDTO ratingDTO) throws ValidationException {
         try {
             RatingDTO createdRating = ratingService.addRating(ratingDTO);
@@ -44,9 +46,9 @@ public class RatingController {
         }
     }
 
-
     // Update rating --> PUT mapping
-    @PutMapping("/{ratingId}")
+    @PutMapping("/update/{ratingId}")
+    @PreAuthorize("@securityService.isAdmin()")
     public ResponseEntity<RatingDTO> updateRating(@PathVariable int ratingId, @RequestBody RatingDTO ratingDTO) {
         try {
             ratingDTO.setRatingId(ratingId);
@@ -57,9 +59,9 @@ public class RatingController {
         }
     }
 
-
     // Delete rating by id --> DELETE mapping
-    @DeleteMapping("/{ratingId}")
+    @DeleteMapping("/delete/{ratingId}")
+    @PreAuthorize("@securityService.isAdmin()")
     public ResponseEntity<Void> deleteRating(@PathVariable int ratingId) {
         try {
             ratingService.deleteRating(ratingId);
@@ -68,5 +70,4 @@ public class RatingController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 }
