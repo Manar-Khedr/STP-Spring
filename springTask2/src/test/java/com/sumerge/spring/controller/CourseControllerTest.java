@@ -61,7 +61,7 @@ class CourseControllerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        courseDTO = new CourseDTO(courseName, courseDescription, 0);
+        courseDTO = new CourseDTO(courseName, courseDescription, 0,1);
     }
 
     // Add Course Tests

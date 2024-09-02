@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.example.com/courses"
+           xmlns:cor="http://www.example.com/courses"
+           elementFormDefault="qualified">
+
+    <xs:element name="courses">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="course" type="cor:CourseType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="CourseType">
+        <xs:sequence>
+            <xs:element name="courseId" type="xs:int"/>
+            <xs:element name="courseName" type="xs:string"/>
+            <xs:element name="courseDescription" type="xs:string"/>
+            <xs:element name="courseCredit" type="xs:int"/>
+            <xs:element name="courseDuration" type="xs:int"/> <!-- Additional field -->
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

@@ -47,7 +47,7 @@ class CourseServiceTest {
     @BeforeEach
     void setUp(){
         MockitoAnnotations.openMocks(this);
-        courseDTO = new CourseDTO("Test Course","Test Course Description", 0);
+        courseDTO = new CourseDTO("Test Course","Test Course Description", 0,1);
         course = new Course();
         savedCourse = new Course();
         // assign id

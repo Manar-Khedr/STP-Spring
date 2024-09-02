@@ -1,7 +1,6 @@
 package com.sumerge.spring3.classes;
 
 import javax.persistence.*;
-import java.time.temporal.ChronoUnit;
 import java.util.Set;
 
 @Entity
@@ -15,6 +14,7 @@ public class Course {
     private String courseName;
     private String courseDescription;
     private int courseCredit;
+    private int courseDuration;
 
     @OneToOne(mappedBy = "course", cascade = CascadeType.ALL)
     private Assessment assessment;
@@ -28,10 +28,11 @@ public class Course {
     // Default constructor
     public Course() {}
 
-    public Course(String courseName, String courseDescription, int courseCredit){
+    public Course(String courseName, String courseDescription, int courseCredit, int duration){
         this.courseName = courseName;
         this.courseDescription = courseDescription;
         this.courseCredit = courseCredit;
+        this.courseDuration = duration;
     }
 
     // Getters and setters
@@ -89,5 +90,13 @@ public class Course {
 
     public void setRatings(Set<Rating> ratings) {
         this.ratings = ratings;
+    }
+
+    public int getCourseDuration() {
+        return courseDuration;
+    }
+
+    public void setCourseDuration(int courseDuration) {
+        this.courseDuration = courseDuration;
     }
 }
