@@ -24,4 +24,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleValidationException(ValidationException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+
+//    @ExceptionHandler(ValidationException.class)
+//    public ResponseEntity<String> handleCourseRecommendationException(CourseRecommendationException ex) {
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+//    }
+//
+//    @ExceptionHandler(ValidationException.class)
+//    public ResponseEntity<String> handleRecommendationUnavailableException(RecommendationUnavailableException ex) {
+//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+//    }
 }

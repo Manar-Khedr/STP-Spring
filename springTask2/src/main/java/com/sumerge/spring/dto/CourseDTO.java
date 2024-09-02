@@ -17,14 +17,21 @@ public class CourseDTO {
     @Schema(description = "Number of credits for the course", example = "3")
     private int courseCredit;
 
+    @Schema(description = "Number of duration for the course", example = "3")
+    private int courseDuration;
+
+
+
+
     // Default constructor
     public CourseDTO() {}
 
     // Parameterized constructor
-    public CourseDTO(String courseName, String courseDescription, int courseCredit) {
+    public CourseDTO(String courseName, String courseDescription, int courseCredit, int courseDuration) {
         this.courseName = courseName;
         this.courseDescription = courseDescription;
         this.courseCredit = courseCredit;
+        this.courseDuration = courseDuration;
     }
 
     public int getCourseId() {
@@ -57,5 +64,13 @@ public class CourseDTO {
 
     public void setCourseCredit(int courseCredit) {
         this.courseCredit = courseCredit;
+    }
+
+    public int getCourseDuration() {
+        return courseDuration;
+    }
+
+    public void setCourseDuration(int courseDuration) {
+        this.courseDuration = courseDuration;
     }
 }
